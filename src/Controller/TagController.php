@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Tag;
+use App\Form\TagType;
+use App\Repository\TagRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Form\TagType;
-use App\Entity\Tag;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TagController extends AbstractController
 {
@@ -43,6 +44,12 @@ class TagController extends AbstractController
     {
         return $this->render('tag/success.html.twig', [
             
+        ]);
+    }
+    public function getTags(TagRepository $tagRepo): Response
+    {
+        return $this->render('partials/tags.html.twig', [
+            'tags' => $tagRepo->findAll()
         ]);
     }
 }
