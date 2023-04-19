@@ -18,8 +18,8 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('content')
+            
+            
             ->add('image', FileType::class, [
                 'label' => 'Image',
 
