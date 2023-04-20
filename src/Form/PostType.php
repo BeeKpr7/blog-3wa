@@ -19,7 +19,8 @@ class PostType extends AbstractType
     {
         $builder
             
-            
+            ->add('title')
+            ->add('content')
             ->add('image', FileType::class, [
                 'label' => 'Image',
 
@@ -34,7 +35,7 @@ class PostType extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '2048k',
+                        'maxSize' => '8192k',
                         'mimeTypes' => [
                             'image/*'
                         ],

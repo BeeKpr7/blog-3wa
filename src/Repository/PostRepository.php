@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\Tag; 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,36 @@ class PostRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findByTag(int $id)
+    {
+        return $this->createQueryBuilder('p')
+            ->where(":id MEMBER OF p.tag")
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+        ;
+        // return $qb->getQuery()->getResult();
+    }
+
+    public function findBySearch(string $search)
+    {
+        return $this->createQueryBuilder('p')
+            ->where("p.title LIKE :search")
+            ->setParameter('search', "%$search%")
+            ->getQuery()
+            ->getResult()
+        ;
+        // return $qb->getQuery()->getResult();
+    }
+
+    public function findAllPosts()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
