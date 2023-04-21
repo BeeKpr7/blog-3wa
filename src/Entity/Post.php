@@ -19,9 +19,6 @@ class Post
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $content = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
@@ -43,6 +40,9 @@ class Post
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $content = null;
 
     public function __construct()
     {

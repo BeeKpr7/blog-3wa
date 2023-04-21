@@ -60,7 +60,7 @@
         <section class="py-8 bg-white dark:bg-gray-900 lg:py-16">
   <div class="max-w-2xl px-4 mx-auto">
     {% if app.user %}
-      <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-bold text-gray-900 lg:text-2xl dark:text-white">Let us know what you think </h2>
     </div>
     <form method="POST" action={{ path('app_comment_create',{slug:post.slug})}} class="mb-6">
@@ -79,10 +79,10 @@
     <div class="px-4 py-2 mb-4 rounded-lg rounded-t-lg ">
         <p class="text-sm text-gray-500 dark:text-gray-400">
                       You should be connect to comment a post ? <a href="{{path('app_login')}}" class="font-medium text-orange-400 hover:underline dark:text-primary-500">Sign in</a>
-                  </p>
+        </p>
     </div>
     {% endif %}
-    {% for comment in post.comments|sort((a,b)=> a.createdAt > b.createdAt) %}
+    {% for comment in post.comments|reverse() %}
     <article class="w-full p-6 px-6 mb-6 text-sm text-base bg-white border-0 rounded-lg focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800">
         <footer class="flex items-center justify-between mb-2">
             <div class="flex items-center">

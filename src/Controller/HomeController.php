@@ -13,7 +13,16 @@ class HomeController extends AbstractController
     public function index(PostRepository $postRepo): Response
     {
         return $this->render('home/index.html.twig', [
-            'posts' => $postRepo->findAllPosts()
+            'posts' => $postRepo->findBy([], ['createdAt' => 'DESC'], 8)
+        ]);
+    }
+
+    #[Route('/api/post/{offsett}', name: 'api_post_index',)]
+    public function apiIndex(PostRepository $postRepo, $offsett=0): Response
+    {
+        $posts = $postRepo->findBy([], ['createdAt' => 'DESC'], 6, $offsett);
+        return $this->render('home/post.html.twig', [
+            'posts' => $posts,
         ]);
     }
 }
