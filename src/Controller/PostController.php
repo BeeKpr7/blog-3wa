@@ -3,18 +3,19 @@
 namespace App\Controller;
 
 use DateTime;
+use App\Entity\Tag;
 use App\Entity\Post;
 use App\Entity\User;
-use App\Entity\Tag;
 use App\Form\PostType;
+use App\Repository\TagRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PostController extends AbstractController
 {
@@ -66,7 +67,7 @@ class PostController extends AbstractController
             'form' => $form,
         ]);
     }
-    #[IsGranted("ROLE_USER")]
+    
     #[Route('/post/edit/{slug}', name: 'app_post_edit')]
     public function update(Post $post, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
@@ -111,7 +112,7 @@ class PostController extends AbstractController
             return $this->redirectToRoute('app_post_show', ['slug' => $post->getSlug()]);
         }
 
-        return $this->render('post/edit.html.twig', [
+        return $this->render('post/create.html.twig', [
             'form' => $form,
         ]);
     }
@@ -158,13 +159,16 @@ class PostController extends AbstractController
     }
 
     #[Route('/search', name: 'app_post_search')]
-    public function search(Request $request, PostRepository $postRepo): Response
+    public function search(Request $request, PostRepository $postRepo, TagRepository $tagRepo): Response
     {
         // dd($request->query->get('search'));
         $search = $request->query->get('search');
+        $category = $request->query->get('category');
         $posts = $postRepo->findBySearch($search);
         return $this->render('home/index.html.twig', [
             'posts' => $posts,
+            'currentCategory' => $category,
+            'tags' => $tagRepo->findAll()
         ]);
     }
 

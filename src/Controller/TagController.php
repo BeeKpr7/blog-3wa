@@ -46,10 +46,11 @@ class TagController extends AbstractController
             
         ]);
     }
-    public function getTags(TagRepository $tagRepo): Response
+    public function getTags( TagRepository $tagRepo, Request $request): Response
     {
         return $this->render('partials/tags.html.twig', [
-            'tags' => $tagRepo->findAll()
+            'tags' => $tagRepo->findAll(),
+            'currentCategory' => $request->query->get('category')
         ]);
     }
 }
